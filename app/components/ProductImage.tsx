@@ -1,5 +1,6 @@
 import type {ProductVariantFragment} from 'storefrontapi.generated';
 import {Image} from '@shopify/hydrogen';
+import styles from '../styles/ProductImage.module.css';
 
 export function ProductImage({
   image,
@@ -10,7 +11,7 @@ export function ProductImage({
     return <div className="product-image" />;
   }
   return (
-    <div className="product-image">
+    <div className={`${styles.image} product-image`}>
       <Image
         alt={image.altText || 'Product Image'}
         aspectRatio="1/1"
