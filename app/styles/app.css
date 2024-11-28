@@ -25,6 +25,12 @@
   src: url('./fonts/Inter_18pt-Bold.ttf') format('truetype');
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: 'Inter', sans-serif;
 }
@@ -170,19 +176,45 @@ button.reset:hover:not(:has(> *)) {
 * --------------------------------------------------
 */
 .header {
-  font-weight: bold;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--color-primary);
   display: flex;
-  height: var(--header-height);
-  padding: 0 1rem;
+  flex-direction: column;
+  font-weight: bold;
   position: sticky;
   top: 0;
   z-index: 1;
 
   a, button {
     color: var(--color-secondary) !important;
+  }
+}
+
+.header-top-layer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 12px;
+  height: 75px;
+  width: 100%;
+  background: var(--color-primary);
+
+  .header-top-layer__menu {
+    display: flex;
+    align-items: center;
+    grid-gap: 4rem;
+  }
+}
+
+.header-bottom-layer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 50px;
+  width: 100%;
+  padding-inline: 12px;
+  background: #FF5714;
+
+  a, button {
+    color: #222222 !important;
   }
 }
 

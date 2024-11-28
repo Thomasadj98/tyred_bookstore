@@ -1,4 +1,4 @@
-import {Suspense} from 'react';
+import {Dispatch, SetStateAction, Suspense, useState} from 'react';
 import {Await, NavLink, useAsyncValue} from '@remix-run/react';
 import {
   type CartViewPayload,
@@ -7,8 +7,6 @@ import {
 } from '@shopify/hydrogen';
 import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
-import hamburgerMenuIcon from "../assets/icons/hamburger-menu.svg";
-
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -26,31 +24,36 @@ export function Header({
   publicStoreDomain,
 }: HeaderProps) {
   const {shop, menu} = header;
+  const [selectedNavItem, setSelectedNavItem] = useState(
+    menu?.items ? menu.items[2] : null,
+  );
+
   return (
     <header className="header">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        className={'header__menu-icon'}
-      >
-        <path d="M4 18h16v-2H4v2zm0-5h16v-2H4v2zm0-7v2h16V6H4z" />
-      </svg>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-        publicStoreDomain={publicStoreDomain}
-      />
-      <NavLink
-        className={'header__logo'}
-        prefetch="intent"
-        to="/"
-        style={activeLinkStyle}
-        end
-      >
-        <strong>{shop.name}</strong>
-      </NavLink>
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      <div className="header-top-layer">
+        <NavLink
+          className={'header__logo'}
+          prefetch="intent"
+          to="/"
+          style={activeLinkStyle}
+          end
+        >
+          <strong>{shop.name}</strong>
+        </NavLink>
+        <div className="header-top-layer__menu">
+          <HeaderMenu
+            menu={menu}
+            viewport="desktop"
+            primaryDomainUrl={header.shop.primaryDomain.url}
+            publicStoreDomain={publicStoreDomain}
+            setSelectedNavItem={setSelectedNavItem}
+          />
+          <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+        </div>
+      </div>
+      <div className="header-bottom-layer">
+        <HeaderSubMenu selectedNavItem={selectedNavItem} />
+      </div>
     </header>
   );
 }
@@ -60,11 +63,15 @@ export function HeaderMenu({
   primaryDomainUrl,
   viewport,
   publicStoreDomain,
+  setSelectedNavItem,
 }: {
   menu: HeaderProps['header']['menu'];
   primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
   viewport: Viewport;
   publicStoreDomain: HeaderProps['publicStoreDomain'];
+  setSelectedNavItem: Dispatch<
+    SetStateAction<HeaderProps['header']['menu']['items'][0] | null>
+  >;
 }) {
   const className = `header-menu-${viewport}`;
   const {close} = useAside();
@@ -97,7 +104,10 @@ export function HeaderMenu({
             className="header-menu-item"
             end
             key={item.id}
-            onClick={close}
+            onClick={() => {
+              close();
+              setSelectedNavItem(item);
+            }}
             prefetch="intent"
             style={activeLinkStyle}
             to={url}
@@ -106,6 +116,24 @@ export function HeaderMenu({
           </NavLink>
         );
       })}
+    </nav>
+  );
+}
+
+function HeaderSubMenu({selectedNavItem}: any) {
+  return (
+    <nav className="header-submenu header-menu-desktop" role="navigation">
+      {selectedNavItem?.items?.map((subItem: any) => (
+        <NavLink
+          className="header-submenu-item"
+          key={subItem.id}
+          prefetch="intent"
+          style={activeLinkStyle}
+          to={subItem.url}
+        >
+          {subItem.title}
+        </NavLink>
+      ))}
     </nav>
   );
 }
