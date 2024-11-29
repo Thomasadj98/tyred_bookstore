@@ -522,8 +522,26 @@ button.reset:hover:not(:has(> *)) {
 .blog-grid {
   display: grid;
   grid-gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(var(--grid-item-width), 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+  "a a b"
+  "a a c"
+  "d e e"
+  "d e e";
   margin-bottom: 2rem;
+
+  #article-0 {
+    grid-area: a;
+  }
+
+  #article-1 {
+    grid-area: b;
+  }
+
+  #article-2 {
+    grid-area: c;
+  }
 }
 
 .blog-article-image {
