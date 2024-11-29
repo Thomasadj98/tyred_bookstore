@@ -74,6 +74,7 @@ export default function Blog() {
             <ArticleItem
               article={article}
               key={article.id}
+              index={index}
               loading={index < 2 ? 'eager' : 'lazy'}
             />
           )}
@@ -86,17 +87,20 @@ export default function Blog() {
 function ArticleItem({
   article,
   loading,
+  index,
 }: {
   article: ArticleItemFragment;
   loading?: HTMLImageElement['loading'];
+  index: number;
 }) {
   const publishedAt = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(new Date(article.publishedAt!));
+
   return (
-    <div className="blog-article" key={article.id}>
+    <div className="blog-article" id={`article-${index}`} key={article.id}>
       <Link to={`/blogs/${article.blog.handle}/${article.handle}`}>
         {article.image && (
           <div className="blog-article-image">
