@@ -1,0 +1,9 @@
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 624px;
+    width: 100%;
+    grid-gap: 24px;
+    margin: 24px;
+}
