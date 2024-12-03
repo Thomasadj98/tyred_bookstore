@@ -12,17 +12,10 @@
 
 /* Inter font */
 @font-face {
-  font-family: 'Inter';
+  font-family: 'bespoke-slab';
   font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/Inter_24pt-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  src: url('./fonts/Inter_18pt-Bold.ttf') format('truetype');
+  font-weight: 900;
+  src: url('./fonts/BespokeSlab-Extrabold.ttf') format('truetype');
 }
 
 * {
@@ -33,6 +26,10 @@
 
 body {
   font-family: 'Inter', sans-serif;
+}
+
+h1 {
+  font-family: 'bespoke-slab', sans-serif;
 }
 
 
