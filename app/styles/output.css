@@ -705,7 +705,7 @@ video {
 }
 
 :root {
-  --aside-width: 400px;
+  --aside-width: 450px;
   --cart-aside-summary-height-with-discount: 300px;
   --cart-aside-summary-height: 250px;
   --grid-item-width: 355px;
@@ -757,15 +757,22 @@ img {
 */
 
 aside {
-  background: var(--color-light);
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+  background: var(--color-primary);
+  color: var(--color-light);
   height: 100vh;
   max-width: var(--aside-width);
   min-width: var(--aside-width);
   position: fixed;
-  right: calc(-1 * var(--aside-width));
+  right: 0;
   top: 0;
-  transition: transform 200ms ease-in-out;
+}
+
+.aside-nav-container {
+  height: 100vh;
+  width: calc(var(--aside-width) + 100px);
+  position: fixed;
+  right: 0;
+  top: 0;
 }
 
 aside header {
@@ -785,7 +792,6 @@ aside header .close {
   font-weight: bold;
   opacity: 0.8;
   text-decoration: none;
-  transition: all 200ms;
   width: 20px;
 }
 

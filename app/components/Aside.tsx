@@ -1,3 +1,4 @@
+import {AnimatePresence, motion} from 'framer-motion';
 import {
   createContext,
   type ReactNode,
@@ -5,6 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import Curve from './Curve';
 
 type AsideType = 'search' | 'cart' | 'mobile' | 'closed';
 type AsideContextValue = {
@@ -12,6 +14,32 @@ type AsideContextValue = {
   open: (mode: AsideType) => void;
   close: () => void;
 };
+
+export const menuSlide = {
+  initial: {x: 'calc(100% + 100px)'},
+  enter: {x: '0', transition: {duration: 0.8, ease: [0.76, 0, 0.24, 1]}},
+  exit: {
+    x: 'calc(100% + 100px)',
+    transition: {duration: 0.8, ease: [0.76, 0, 0.24, 1]},
+  },
+};
+
+// export const slide = {
+//   initial: {x: 80},
+//   enter: (i: any) => ({
+//     x: 0,
+//     transition: {duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.05 * i},
+//   }),
+//   exit: (i: any) => ({
+//     x: 80,
+//     transition: {duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.05 * i},
+//   }),
+// };
+//
+// export const scale = {
+//   open: {scale: 1, transition: {duration: 0.3}},
+//   closed: {scale: 0, transition: {duration: 0.4}},
+// };
 
 /**
  * A side bar component with Overlay
@@ -59,15 +87,26 @@ export function Aside({
       role="dialog"
     >
       <button className="close-outside" onClick={close} />
-      <aside>
-        <header>
-          <h3>{heading}</h3>
-          <button className="close reset" onClick={close}>
-            &times;
-          </button>
-        </header>
-        <main>{children}</main>
-      </aside>
+
+      {expanded && (
+        <AnimatePresence mode="wait">
+          <motion.aside
+            variants={menuSlide}
+            initial="initial"
+            animate="enter"
+            exit="exit"
+          >
+            <Curve />
+            <header>
+              <h3>{heading}</h3>
+              <button className="close reset" onClick={close}>
+                &times;
+              </button>
+            </header>
+            <main>{children}</main>
+          </motion.aside>
+        </AnimatePresence>
+      )}
     </div>
   );
 }
